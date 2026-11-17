@@ -1,8 +1,25 @@
 {
   "name": "youtube",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Connect YouTube with browser sign-in: channel & video analytics, edit post details, upload and schedule videos, playlists, comments, captions.",
-  "author": { "name": "claude-youtube-connector" },
+  "author": {
+    "name": "claude-youtube-connector"
+  },
   "license": "MIT",
-  "keywords": ["youtube", "analytics", "video", "social", "automation", "mcp"]
+  "keywords": [
+    "youtube",
+    "analytics",
+    "video",
+    "social",
+    "automation",
+    "mcp"
+  ],
+  "mcpServers": {
+    "youtube": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/dist/server.mjs"
+      ]
+    }
+  }
 }

@@ -23,7 +23,7 @@ Resumable upload protocol handles large files.
 ## Architecture
 ```
 .claude-plugin/plugin.json   plugin manifest
-.mcp.json                    registers the MCP server (stdio, node)
+.claude-plugin/plugin.json  manifest + MCP server registration
 server/index.js              MCP server: tool definitions
 server/auth.js               OAuth loopback + PKCE, token store, refresh
 server/youtube.js            REST client (fetch), resumable upload
