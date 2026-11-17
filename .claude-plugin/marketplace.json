@@ -1,0 +1,16 @@
+{
+  "name": "youtube-connector",
+  "owner": {
+    "name": "local"
+  },
+  "plugins": [
+    {
+      "name": "youtube",
+      "source": "./",
+      "description": "YouTube analytics, publishing and scheduling for Claude."
+    }
+  ],
+  "metadata": {
+    "description": "YouTube connector plugin for Claude Code"
+  }
+}

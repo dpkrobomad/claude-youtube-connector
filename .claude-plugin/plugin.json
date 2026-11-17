@@ -1,0 +1,8 @@
+{
+  "name": "youtube",
+  "version": "1.0.0",
+  "description": "Connect YouTube with browser sign-in: channel & video analytics, edit post details, upload and schedule videos, playlists, comments, captions.",
+  "author": { "name": "claude-youtube-connector" },
+  "license": "MIT",
+  "keywords": ["youtube", "analytics", "video", "social", "automation", "mcp"]
+}
