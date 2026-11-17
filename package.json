@@ -1,6 +1,6 @@
 {
   "name": "claude-youtube-connector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server + Claude Code plugin: YouTube analytics, video management and scheduled posting with browser OAuth.",
   "type": "module",
   "main": "server/index.js",
@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node server/index.js",
     "login": "node server/cli-login.js",
-    "test": "node --test test/*.test.js"
+    "test": "npm run build && node --test test/*.test.js",
+    "build": "esbuild server/index.js --bundle --platform=node --format=esm --target=node18 --outfile=dist/server.mjs --banner:js=\"import{createRequire as __cr}from'module';const require=__cr(import.meta.url);\" --log-level=warning"
   },
   "engines": {
     "node": ">=18"
@@ -19,5 +20,8 @@
     "@modelcontextprotocol/sdk": "^1.17.0",
     "zod": "^4.6.7"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.25.10"
+  }
 }

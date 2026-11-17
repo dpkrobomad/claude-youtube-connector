@@ -9,7 +9,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 const cfg = fs.mkdtempSync(path.join(os.tmpdir(), "yt-"));
 async function connect(env = {}) {
   const c = new Client({ name: "t", version: "1" });
-  await c.connect(new StdioClientTransport({ command: process.execPath, args: ["server/start.js"], env: { ...process.env, YT_CONFIG_DIR: cfg, YT_CLIENT_ID: "", YT_CLIENT_SECRET: "", ...env } }));
+  await c.connect(new StdioClientTransport({ command: process.execPath, args: [process.env.YT_TEST_ENTRY || "dist/server.mjs"], env: { ...process.env, YT_CONFIG_DIR: cfg, YT_CLIENT_ID: "", YT_CLIENT_SECRET: "", ...env } }));
   return c;
 }
 const text = (r) => r.content[0].text;

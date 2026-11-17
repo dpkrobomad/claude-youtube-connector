@@ -19,7 +19,7 @@ claude plugin install youtube@youtube-connector
 ```
 Then do the one-time Google setup in [SETUP.md](SETUP.md) and run `/yt-login`.
 
-MCP-only (Claude Desktop or other clients): add `{"command":"node","args":["/abs/path/server/start.js"]}` as an MCP server.
+MCP-only (Claude Desktop or other clients): add `{"command":"node","args":["/abs/path/dist/server.mjs"]}` (self-contained bundle, no npm install needed; rebuild with `npm run build`) as an MCP server.
 
 ## Commands
 - `/yt-login` — browser sign-in
