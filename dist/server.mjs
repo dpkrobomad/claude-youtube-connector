@@ -3259,8 +3259,8 @@ var require_utils = __commonJS({
       }
       return ind;
     }
-    function removeDotSegments(path3) {
-      let input2 = path3;
+    function removeDotSegments(path4) {
+      let input2 = path4;
       const output2 = [];
       let nextSlash = -1;
       let len = 0;
@@ -3334,11 +3334,11 @@ var require_utils = __commonJS({
       }
       return output2.join("");
     }
-    function removeDotSegmentsRelative(path3) {
-      if (path3 === "" || path3[0] === "/") {
-        return removeDotSegments(path3);
+    function removeDotSegmentsRelative(path4) {
+      if (path4 === "" || path4[0] === "/") {
+        return removeDotSegments(path4);
       }
-      const segments = path3.split("/");
+      const segments = path4.split("/");
       const last = segments.length - 1;
       const output2 = [];
       let trailingDirectory = false;
@@ -3701,8 +3701,8 @@ var require_schemes = __commonJS({
       }
       if (wsComponent.resourceName) {
         const queryIndex = wsComponent.resourceName.indexOf("?");
-        const path3 = queryIndex === -1 ? wsComponent.resourceName : wsComponent.resourceName.slice(0, queryIndex);
-        wsComponent.path = path3 && path3 !== "/" ? path3 : void 0;
+        const path4 = queryIndex === -1 ? wsComponent.resourceName : wsComponent.resourceName.slice(0, queryIndex);
+        wsComponent.path = path4 && path4 !== "/" ? path4 : void 0;
         wsComponent.query = queryIndex === -1 ? void 0 : wsComponent.resourceName.slice(queryIndex + 1);
         wsComponent.resourceName = void 0;
       }
@@ -7239,12 +7239,12 @@ var require_dist = __commonJS({
         throw new Error(`Unknown format "${name}"`);
       return f;
     };
-    function addFormats(ajv, list, fs3, exportName) {
+    function addFormats(ajv, list, fs4, exportName) {
       var _a3;
       var _b;
       (_a3 = (_b = ajv.opts.code).formats) !== null && _a3 !== void 0 ? _a3 : _b.formats = (0, codegen_1._)`require("ajv-formats/dist/formats").${exportName}`;
       for (const f of list)
-        ajv.addFormat(f, fs3[f]);
+        ajv.addFormat(f, fs4[f]);
     }
     module.exports = exports = formatsPlugin;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -7626,8 +7626,8 @@ function getErrorMap() {
 
 // node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path3, errorMaps, issueData } = params;
-  const fullPath = [...path3, ...issueData.path || []];
+  const { data, path: path4, errorMaps, issueData } = params;
+  const fullPath = [...path4, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -7742,11 +7742,11 @@ var errorUtil;
 
 // node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path3, key) {
+  constructor(parent, value, path4, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path3;
+    this._path = path4;
     this._key = key;
   }
   get path() {
@@ -11702,10 +11702,10 @@ function mergeDefs(...defs) {
 function cloneDef(schema) {
   return mergeDefs(schema._zod.def);
 }
-function getElementAtPath(obj, path3) {
-  if (!path3)
+function getElementAtPath(obj, path4) {
+  if (!path4)
     return obj;
-  return path3.reduce((acc, key) => acc?.[key], obj);
+  return path4.reduce((acc, key) => acc?.[key], obj);
 }
 function promiseAllObject(promisesObj) {
   const keys = Object.keys(promisesObj);
@@ -12045,11 +12045,11 @@ function explicitlyAborted(x, startIndex = 0) {
   }
   return false;
 }
-function prefixIssues(path3, issues) {
+function prefixIssues(path4, issues) {
   return issues.map((iss) => {
     var _a3;
     (_a3 = iss).path ?? (_a3.path = []);
-    iss.path.unshift(path3);
+    iss.path.unshift(path4);
     return iss;
   });
 }
@@ -12511,16 +12511,16 @@ function flattenError(error62, mapper = (issue2) => issue2.message) {
 }
 function formatError(error62, mapper = (issue2) => issue2.message) {
   const fieldErrors = { _errors: [] };
-  const processError = (error63, path3 = []) => {
+  const processError = (error63, path4 = []) => {
     for (const issue2 of error63.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path4, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path4, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path4, ...issue2.path]);
       } else {
-        const fullpath = [...path3, ...issue2.path];
+        const fullpath = [...path4, ...issue2.path];
         if (fullpath.length === 0) {
           fieldErrors._errors.push(mapper(issue2));
         } else {
@@ -12559,17 +12559,17 @@ function formatError(error62, mapper = (issue2) => issue2.message) {
 }
 function treeifyError(error62, mapper = (issue2) => issue2.message) {
   const result = { errors: [] };
-  const processError = (error63, path3 = []) => {
+  const processError = (error63, path4 = []) => {
     var _a3;
     for (const issue2 of error63.issues) {
       if (issue2.code === "invalid_union" && issue2.errors.length) {
-        issue2.errors.map((issues) => processError({ issues }, [...path3, ...issue2.path]));
+        issue2.errors.map((issues) => processError({ issues }, [...path4, ...issue2.path]));
       } else if (issue2.code === "invalid_key") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path4, ...issue2.path]);
       } else if (issue2.code === "invalid_element") {
-        processError({ issues: issue2.issues }, [...path3, ...issue2.path]);
+        processError({ issues: issue2.issues }, [...path4, ...issue2.path]);
       } else {
-        const fullpath = [...path3, ...issue2.path];
+        const fullpath = [...path4, ...issue2.path];
         if (fullpath.length === 0) {
           result.errors.push(mapper(issue2));
           continue;
@@ -12608,8 +12608,8 @@ function treeifyError(error62, mapper = (issue2) => issue2.message) {
 }
 function toDotPath(_path) {
   const segs = [];
-  const path3 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
-  for (const seg of path3) {
+  const path4 = _path.map((seg) => typeof seg === "object" ? seg.key : seg);
+  for (const seg of path4) {
     if (typeof seg === "number")
       segs.push(`[${seg}]`);
     else if (typeof seg === "symbol")
@@ -28160,11 +28160,11 @@ function normalizeObjectSchema(schema) {
   }
   return void 0;
 }
-function getDotPath(path3) {
-  if (path3.length === 0) {
+function getDotPath(path4) {
+  if (path4.length === 0) {
     return "object root";
   }
-  return path3.reduce((acc, seg, index) => {
+  return path4.reduce((acc, seg, index) => {
     if (index === 0) {
       return String(seg);
     }
@@ -30391,13 +30391,13 @@ function resolveRef(ref, ctx) {
   if (!ref.startsWith("#")) {
     throw new Error("External $ref is not supported, only local refs (#/...) are allowed");
   }
-  const path3 = ref.slice(1).split("/").filter(Boolean);
-  if (path3.length === 0) {
+  const path4 = ref.slice(1).split("/").filter(Boolean);
+  if (path4.length === 0) {
     return ctx.rootSchema;
   }
   const defsKey = ctx.version === "draft-2020-12" ? "$defs" : "definitions";
-  if (path3[0] === defsKey) {
-    const key = path3[1] === void 0 ? void 0 : decodeJSONPointerSegment(path3[1]);
+  if (path4[0] === defsKey) {
+    const key = path4[1] === void 0 ? void 0 : decodeJSONPointerSegment(path4[1]);
     if (!key || !ctx.defs[key]) {
       throw new Error(`Reference not found: ${ref}`);
     }
@@ -36652,6 +36652,10 @@ var StdioServerTransport = class {
   }
 };
 
+// server/index.js
+import fs3 from "node:fs";
+import path3 from "node:path";
+
 // server/auth.js
 import http from "node:http";
 import crypto from "node:crypto";
@@ -36874,7 +36878,7 @@ import path2 from "node:path";
 var DATA = "https://www.googleapis.com/youtube/v3";
 var UPLOAD = "https://www.googleapis.com/upload/youtube/v3";
 var ANALYTICS = "https://youtubeanalytics.googleapis.com/v2";
-var COST = { list: 1, insert: 50, update: 50, delete: 50, "videos.insert": 100, "thumbnails.set": 50, "captions.insert": 400, "captions.update": 450, "search.list": 100 };
+var COST = { list: 1, insert: 50, update: 50, delete: 50, "videos.insert": 100, "thumbnails.set": 50, "captions.insert": 400, "captions.update": 450, "captions.download": 200, "search.list": 100 };
 var quota = { day: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10), used: 0, calls: {} };
 function track(key, units) {
   const today = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
@@ -36935,6 +36939,10 @@ var get = (resource, query, cost = 1) => request("GET", `${DATA}/${resource}`, {
 var post = (resource, query, body, cost = COST.insert) => request("POST", `${DATA}/${resource}`, { query, body, cost, key: `${resource}.insert` }).then(strip);
 var put = (resource, query, body, cost = COST.update) => request("PUT", `${DATA}/${resource}`, { query, body, cost, key: `${resource}.update` }).then(strip);
 var del = (resource, query, cost = COST.delete) => request("DELETE", `${DATA}/${resource}`, { query, cost, key: `${resource}.delete` }).then(strip);
+async function downloadCaption(id, tfmt = "srt", tlang) {
+  const r = await request("GET", `${DATA}/captions/${encodeURIComponent(id)}`, { query: { tfmt, tlang }, cost: COST["captions.download"], key: "captions.download" });
+  return r.raw ?? "";
+}
 var analytics = (query) => request("GET", `${ANALYTICS}/reports`, { query, cost: 0, key: "analytics.reports" }).then(strip);
 async function listAll(resource, query, max = 50) {
   const items = [];
@@ -37409,6 +37417,37 @@ tool(
   "List caption tracks on a video.",
   { video_id: external_exports.string() },
   async (a) => (await get("captions", { part: "snippet", videoId: a.video_id }, 50)).items.map((c) => ({ id: c.id, language: c.snippet.language, name: c.snippet.name, kind: c.snippet.trackKind, draft: c.snippet.isDraft })),
+  RO
+);
+tool(
+  "yt_download_caption",
+  "Download a caption track's text (owner's videos only; includes auto-generated 'asr' tracks). Picks the best track when caption_id is omitted: a manual track in `language`, else the auto-generated one. Optionally saves to file_path. Costs 200 quota units.",
+  {
+    video_id: external_exports.string(),
+    caption_id: external_exports.string().optional().describe("From yt_list_captions; omit to auto-pick"),
+    language: external_exports.string().optional().describe("Preferred language, BCP-47 (default en)"),
+    format: external_exports.enum(["srt", "vtt", "sbv", "scc", "ttml"]).optional().describe("Default srt"),
+    file_path: external_exports.string().optional().describe("Save the captions here as well as returning them")
+  },
+  async (a) => {
+    let id = a.caption_id, track2;
+    if (!id) {
+      const items = (await get("captions", { part: "snippet", videoId: a.video_id }, 50)).items || [];
+      if (!items.length) throw new Error("This video has no caption tracks yet (auto-captions can take a while after upload).");
+      const lang = (a.language || "en").toLowerCase(), base = (c) => c.snippet.language.toLowerCase().split("-")[0];
+      const rank = (c) => (base(c) === lang.split("-")[0] ? 0 : 2) + (c.snippet.trackKind === "asr" ? 1 : 0) + (c.snippet.isDraft ? 4 : 0);
+      track2 = items.sort((x, y) => rank(x) - rank(y))[0];
+      id = track2.id;
+    }
+    const text = await downloadCaption(id, a.format || "srt");
+    let saved;
+    if (a.file_path) {
+      saved = path3.resolve(a.file_path.replace(/^~(?=$|\/)/, process.env.HOME || ""));
+      fs3.mkdirSync(path3.dirname(saved), { recursive: true });
+      fs3.writeFileSync(saved, text);
+    }
+    return { caption_id: id, language: track2?.snippet.language, kind: track2?.snippet.trackKind, format: a.format || "srt", saved_to: saved, text };
+  },
   RO
 );
 tool(

@@ -8,7 +8,7 @@ const UPLOAD = "https://www.googleapis.com/upload/youtube/v3";
 const ANALYTICS = "https://youtubeanalytics.googleapis.com/v2";
 
 // Approximate Data API quota costs (units). Daily default quota: 10,000.
-const COST = { list: 1, insert: 50, update: 50, delete: 50, "videos.insert": 100, "thumbnails.set": 50, "captions.insert": 400, "captions.update": 450, "search.list": 100 };
+const COST = { list: 1, insert: 50, update: 50, delete: 50, "videos.insert": 100, "thumbnails.set": 50, "captions.insert": 400, "captions.update": 450, "captions.download": 200, "search.list": 100 };
 const quota = { day: new Date().toISOString().slice(0, 10), used: 0, calls: {} };
 function track(key, units) {
   const today = new Date().toISOString().slice(0, 10);
@@ -58,6 +58,11 @@ export const get = (resource, query, cost = 1) => request("GET", `${DATA}/${reso
 export const post = (resource, query, body, cost = COST.insert) => request("POST", `${DATA}/${resource}`, { query, body, cost, key: `${resource}.insert` }).then(strip);
 export const put = (resource, query, body, cost = COST.update) => request("PUT", `${DATA}/${resource}`, { query, body, cost, key: `${resource}.update` }).then(strip);
 export const del = (resource, query, cost = COST.delete) => request("DELETE", `${DATA}/${resource}`, { query, cost, key: `${resource}.delete` }).then(strip);
+/** Download a caption track as text (srt, vtt, sbv, scc, ttml). Costs 200 quota units. */
+export async function downloadCaption(id, tfmt = "srt", tlang) {
+  const r = await request("GET", `${DATA}/captions/${encodeURIComponent(id)}`, { query: { tfmt, tlang }, cost: COST["captions.download"], key: "captions.download" });
+  return r.raw ?? "";
+}
 export const analytics = (query) => request("GET", `${ANALYTICS}/reports`, { query, cost: 0, key: "analytics.reports" }).then(strip);
 
 /** Fetch every page of a list endpoint up to `max` items. */

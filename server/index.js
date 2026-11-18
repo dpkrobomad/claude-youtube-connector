@@ -3,6 +3,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import fs from "node:fs";
+import path from "node:path";
 import * as auth from "./auth.js";
 import * as yt from "./youtube.js";
 
@@ -280,6 +282,29 @@ tool("yt_moderate_comment", "Publish, hold, or reject (hide) comments; optionall
 // ---------- captions ----------
 tool("yt_list_captions", "List caption tracks on a video.", { video_id: z.string() },
   async (a) => (await yt.get("captions", { part: "snippet", videoId: a.video_id }, 50)).items.map((c) => ({ id: c.id, language: c.snippet.language, name: c.snippet.name, kind: c.snippet.trackKind, draft: c.snippet.isDraft })), RO);
+
+tool("yt_download_caption", "Download a caption track's text (owner's videos only; includes auto-generated 'asr' tracks). Picks the best track when caption_id is omitted: a manual track in `language`, else the auto-generated one. Optionally saves to file_path. Costs 200 quota units.",
+  { video_id: z.string(), caption_id: z.string().optional().describe("From yt_list_captions; omit to auto-pick"),
+    language: z.string().optional().describe("Preferred language, BCP-47 (default en)"),
+    format: z.enum(["srt", "vtt", "sbv", "scc", "ttml"]).optional().describe("Default srt"),
+    file_path: z.string().optional().describe("Save the captions here as well as returning them") },
+  async (a) => {
+    let id = a.caption_id, track;
+    if (!id) {
+      const items = (await yt.get("captions", { part: "snippet", videoId: a.video_id }, 50)).items || [];
+      if (!items.length) throw new Error("This video has no caption tracks yet (auto-captions can take a while after upload).");
+      const lang = (a.language || "en").toLowerCase(), base = (c) => c.snippet.language.toLowerCase().split("-")[0];
+      const rank = (c) => (base(c) === lang.split("-")[0] ? 0 : 2) + (c.snippet.trackKind === "asr" ? 1 : 0) + (c.snippet.isDraft ? 4 : 0);
+      track = items.sort((x, y) => rank(x) - rank(y))[0]; id = track.id;
+    }
+    const text = await yt.downloadCaption(id, a.format || "srt");
+    let saved;
+    if (a.file_path) {
+      saved = path.resolve(a.file_path.replace(/^~(?=$|\/)/, process.env.HOME || ""));
+      fs.mkdirSync(path.dirname(saved), { recursive: true }); fs.writeFileSync(saved, text);
+    }
+    return { caption_id: id, language: track?.snippet.language, kind: track?.snippet.trackKind, format: a.format || "srt", saved_to: saved, text };
+  }, RO);
 
 tool("yt_upload_caption", "Upload a caption file (.srt/.vtt/.sbv) to a video. Costs 400 quota units.",
   { video_id: z.string(), file_path: z.string(), language: z.string().describe("BCP-47, e.g. en, es, hi"), name: z.string().optional() },
